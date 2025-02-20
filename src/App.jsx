@@ -12,12 +12,14 @@ function App() {
     active:0,
     boards:[
       {
-        name:'My Trello Board',
+        name:'Project',
         bgcolor:'#069',
         list:[
-          {id:"1",title:"To do",items:[{id:"cdrFt",title:"Project Description 1"}]},
+          {id:"1",title:"To Be Done",items:[{id:"cdrFt",title:"Project Description 1"}]},
           {id:"2",title:"In Progress",items:[{id:"cdrFv",title:"Project Description 2"}]},
-          {id:"3",title:"Done",items:[{id:"cdrFb",title:"Project Description 3"}]}
+          {id:"3",title:"Completed",items:[{id:"cdrFb",title:"Project Description 3"}]},
+          {id:"4",title:"Can't Be Done",items:[{id:"cdrFb",title:"Project Description 4"}]},
+          {id:"5",title:"Waiting",items:[{id:"cdrFb",title:"Project Description 5"}]}
         ]
       }
     ]
