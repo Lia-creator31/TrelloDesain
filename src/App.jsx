@@ -12,7 +12,7 @@ function App() {
     active:0,
     boards:[
       {
-        name:'Project',
+        name:'Al Maryah Project',
         bgcolor:'#069',
         list:[
           {id:"1",title:"To Be Done",items:[{id:"cdrFt",title:"Project Description 1"}]},
