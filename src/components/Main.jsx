@@ -22,6 +22,11 @@ const Main = () => {
     const [checklistProgress, setChecklistProgress] = useState(0);
     const [showChecklist, setShowChecklist] = useState(false); // New state for checklist visibility
 
+    const [editListId, setEditListId] = useState(null);
+    const [editListTitle, setEditListTitle] = useState('');
+    const [isEditListModalOpen, setIsEditListModalOpen] = useState(false);
+
+
     const [linkModalOpen, setLinkModalOpen] = useState(false);
     const [linkInput, setLinkInput] = useState('');
 
@@ -181,6 +186,36 @@ const Main = () => {
         }
     };
 
+    const openEditListModal = (list) => {
+        setEditListId(list.id);
+        setEditListTitle(list.title);
+        setIsEditListModalOpen(true);
+    };
+
+    const handleSaveListTitle = () => {
+        let newList = [...bdata.list].map(list =>
+            list.id === editListId ? { ...list, title: editListTitle } : list
+        );
+    
+        let board_ = { ...allboard };
+        board_.boards[board_.active].list = newList;
+        setAllBoard(board_);
+    
+        setIsEditListModalOpen(false);
+    };
+
+    const handleDeleteList = () => {
+        let newList = bdata.list.filter(list => list.id !== editListId);
+    
+        let board_ = { ...allboard };
+        board_.boards[board_.active].list = newList;
+        setAllBoard(board_);
+    
+        setIsEditListModalOpen(false);
+    };
+    
+    
+    
     return (
 <div className='flex flex-col w-full' style={{backgroundColor:`${bdata.bgcolor}`}}>
     <div className='p-3 bg-black flex justify-between w-full bg-opacity-50'>
@@ -202,7 +237,13 @@ const Main = () => {
                         <div className="list-body">
                             <div className='flex justify-between p-1'>
                                 <span>{x.title}</span>
-                                <button className='hover:bg-gray-500 p-1 rounded-sm'><MoreHorizontal size={16}></MoreHorizontal></button>
+                                    <button 
+                                        className='hover:bg-gray-500 p-1 rounded-sm' 
+                                        onClick={() => openEditListModal(x)}
+                                    >
+                                        <MoreHorizontal size={16} />
+                                    </button>
+
                             </div>
                             <Droppable droppableId={x.id}>
                                 {(provided, snapshot) => (
@@ -339,28 +380,61 @@ const Main = () => {
                 </div>
             )}
             {linkModalOpen && (
+                <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white p-5 rounded-md w-96">
+                        <h3 className="text-2xl font-bold text-black mb-3">Add Attachment Link</h3>
+                        <input 
+                            type="text" 
+                            className="border p-2 w-full text-black rounded-md" 
+                            placeholder="Enter link..." 
+                            value={linkInput} 
+                            onChange={(e) => setLinkInput(e.target.value)} 
+                        />
+                        <div className="mt-3 flex justify-end">
+                            <button 
+                                className="bg-red-800 text-white px-3 py-1 rounded mr-2" 
+                                onClick={() => setLinkModalOpen(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button 
+                                className="bg-green-800 text-white px-3 py-1 rounded" 
+                                onClick={handleSaveLink}
+                            >
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        {isEditListModalOpen && (
             <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
                 <div className="bg-white p-5 rounded-md w-96">
-                    <h3 className="text-2xl font-bold text-black mb-3">Add Attachment Link</h3>
+                    <h3 className="text-2xl font-bold text-black mb-3">Edit List Title</h3>
                     <input 
                         type="text" 
                         className="border p-2 w-full text-black rounded-md" 
-                        placeholder="Enter link..." 
-                        value={linkInput} 
-                        onChange={(e) => setLinkInput(e.target.value)} 
+                        value={editListTitle} 
+                        onChange={(e) => setEditListTitle(e.target.value)} 
                     />
                     <div className="mt-3 flex justify-end">
                         <button 
                             className="bg-red-800 text-white px-3 py-1 rounded mr-2" 
-                            onClick={() => setLinkModalOpen(false)}
+                            onClick={handleDeleteList}
                         >
-                            Cancel
+                            Delete
                         </button>
                         <button 
                             className="bg-green-800 text-white px-3 py-1 rounded" 
-                            onClick={handleSaveLink}
+                            onClick={handleSaveListTitle}
                         >
                             Save
+                        </button>
+                        <button 
+                            className="bg-gray-600 text-white px-3 py-1 rounded ml-2" 
+                            onClick={() => setIsEditListModalOpen(false)}
+                        >
+                            Cancel
                         </button>
                     </div>
                 </div>
