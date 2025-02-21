@@ -93,8 +93,8 @@ const Sidebar = () => {
                                         <button onClick={() => setShowpop(!showpop)} className='absolute right-2 top-2 hover:bg-gray-500 p-1 rounded'>
                                             <X size={16}></X>
                                         </button>
-                                        <h4 className='py-3'>Create Board</h4>
-                                        <img src="https://placehold.co/200x120/png" alt="" />
+                                        <h4 className='py-0'>Create Board</h4>
+                                        {/* <img src="https://placehold.co/200x120/png" alt="" /> */}
                                         <div className="mt-3 flex flex-col items-start w-full">
                                             <label htmlFor="title">Board Title <span>*</span></label>
                                             <input
